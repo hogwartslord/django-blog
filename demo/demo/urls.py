@@ -17,7 +17,10 @@ from django.conf.urls import url
 from django.contrib import admin
 from blog.views import *
 
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^blog/hello',hello),
+    url(r'^blog/(\d+)/(\d+)/$',add),
     url(r'^blog/',index),
 ]
