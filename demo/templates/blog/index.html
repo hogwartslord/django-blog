@@ -5,6 +5,7 @@
     <title>Django!</title>
 </head>
 <body>
+<body>
     {% for item in post %}
     <a href="{% url 'blog:url_post' item.id %}"> {{ item.title }} </a> <br />
         {{ item.author }} -- {{ item.created_time|date:'Y-m-d' }}<br />
