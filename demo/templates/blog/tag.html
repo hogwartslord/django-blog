@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Django</title>
+</head>
+<body>
+    {% for item in tag %}
+       <a href="{% url 'blog:url_tag_post' item.id %}"> {{ item.name }}</a><br />
+    {% endfor %}
+</body>
+</html>

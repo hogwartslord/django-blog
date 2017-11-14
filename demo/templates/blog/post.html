@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Django</title>
+</head>
+<body>
+    {{ post.title }}<br />
+    {{ post.author }}-- {{ post.created_time |date:'Y-m-d' }}<br />
+    分类:{{ post.category.name }} -- 标签:
+        {% for tag in  post.get_tags %}
+            {{ tag.name }}
+            {% if not forloop.last %}
+                ,
+            {% endif %}
+        {% endfor %}
+        <br />
+    {{ post.body }}
+</body>
+</html>
