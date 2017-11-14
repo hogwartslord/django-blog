@@ -35,6 +35,9 @@ class Post(models.Model):
     tag = models.ManyToManyField(Tag,blank=True,verbose_name='标签')
     count = models.PositiveIntegerField(verbose_name='访问次数')
 
+    def get_tags(self):
+        return self.tag.all()
+
     class Meta:
         verbose_name = '文章'
         verbose_name_plural = '文章'

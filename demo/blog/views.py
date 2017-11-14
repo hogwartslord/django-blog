@@ -1,26 +1,30 @@
-from django.shortcuts import render
-from django.http import HttpResponse,HttpResponseRedirect,HttpResponsePermanentRedirect
+from django.shortcuts import render,get_object_or_404
+from .models import *
 
 # Create your views here.
-
 def index(request):
-    context = {'title':'test'}
-    return render(request,'blog/index.html',context=context)
+    post = Post.objects.all()
+    return render(request,'blog/index.html',context={'post':post})
 
-def hello(request):
-    return HttpResponse('Hello World!')
+def post(request,postid):
+    post = get_object_or_404(Post,pk = postid)
+    #post = Post.objects.get(id=postid)
+    return render(request,'blog/post.html',context={'post':post})
 
-def add(request,n1,n2):
-    n1 = int(n1)
-    n2 = int(n2)
-    ret = '{} + {} = {}'.format(n1,n2,n1+n2)
-    return HttpResponse(ret)
+def category(request):
+    category = Category.objects.all()
+    return render(request,'blog/category.html',context={'category':category})
 
-def mul(request):
-    n1 = int(request.GET.get('n1'))
-    n2 = int(request.GET.get('n2'))
-    ret = '{} * {} = {}'.format(n1, n2, n1 * n2)
-    return HttpResponse(ret)
+def category_post(request,cid):
+    c = get_object_or_404(Category,pk=cid)
+    post = c.post_set.all()
+    return render(request, 'blog/index.html', context={'post': post})
 
-def addtest(request):
-    return HttpResponseRedirect('/blog/600/66/')
+def tag(request):
+    tag = Tag.objects.all()
+    return render(request,'blog/tag.html',context={'tag':tag})
+
+def tag_post(request,tid):
+    t = get_object_or_404(Tag,pk=tid)
+    post = t.post_set.all()
+    return render(request, 'blog/index.html', context={'post': post})
