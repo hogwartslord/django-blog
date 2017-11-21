@@ -1,26 +1,234 @@
-<!DOCTYPE HTML>
-<html>
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-    <meta charset="utf-8" />
-    <title>Django!</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Django 博客</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <style type="text/css">
+  body { background: #000; margin: 0; padding:0; }
+  canvas {position: fixed; z-index: -1}
+  </style>
+    <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+  <style type="text/css">
+  #cloudtag {position:relative; width:260px; height:260px; solid #000; margin: 20px auto 0;}
+  #cloudtag a {position:absolute; top:0px; left:0px; color:#00FF00; font-weight:bold; text-decoration:none; padding: 3px 6px; }
+  #cloudtag a:hover {border: 1px solid #eee; background: #000; color:red;}
+  </style>
+  <!-- 来源网站 http://cblog.xyz/ -->
 </head>
-<body>
-<body>
-    {% for item in post %}
-    <a href="{% url 'blog:url_post' item.id %}"> {{ item.title }} </a> <br />
-        {{ item.author }} -- {{ item.created_time|date:'Y-m-d' }}<br />
-        分类: <a href="{% url 'blog:url_category_post' item.category.id %}">{{ item.category }}</a>
-        -- 标签:
-        {% for tag in item.get_tags %}
-            <a href="{% url 'blog:url_tag_post' tag.id %}">{{ tag.name }}</a>
-            {% if not fooloop.last %}
-                ,
-            {% endif %}
-        {% endfor %} <br />
-        {{ item.excerpt |truncatechars:'20' }}<br /><br /><br />
 
-    {% endfor %}
+<body style="">
+  <canvas id="canvas" width="1600" height=100%></canvas>
+  <!--<div id="banner" class="noselect"></div> -->
+
+  <div class="container transparent">
+    <div class="row">
+      <div class="col-lg-9">
+        <div id="category" class="noselect">
+          <div id="category-title">
+            <ul>
+              <li class="cat-item"><a href="#">首页</a>
+              </li>
+
+              <li class="cat-item"><a href="#">分类</a>
+              </li>
+
+              <li class="cat-item"><a href="#">标签</a>
+              </li>
+
+              <li class="cat-item"><a href="#">联系我们</a>
+              </li>
+
+            </ul>
+          </div>
+        </div>
+
+        <div id="bd" class="wrp clear-fix">
+          <div id="main">
+          {% for item in post %}
+            <div class="post">
+              <div class="post-hd">
+                <h1 class="title"><a href="#">{{ item.title }}</a></h1>
+              </div>
+              <div class="post-bd">
+                <p>{{ item.excerpt | truncatechars:'30' }}</p>
+                <p><a href="#" class="more-link"></a></p>
+              </div>
+              <div class="post-ft">
+                <a href="#" class="more">阅读全文&gt;&gt;</a>
+                <i class="icon-date"></i>
+                <span class="date"> {{ item.modified_time | date:'Y年m月d日' }} </span>
+                <!--i class='icon-praise'></i>-->
+                <input type="image"  src="{% static 'images/gb21.png' %}" href="/article/102/praise">
+                <span class="likes_num">0</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <span>阅读量:{{ item.count }}</span>
+              </div>
+            </div>
+          {% endfor %}
+            <!-- 导航页码
+            <div id="pagenavi" class="noselect">
+            <span class="first-page current">1</span>
+            <a class="pages" href="#">2</a>
+            <a class="pages" href="#">3</a>
+            <span>...</span>
+            <a class="pages" href="#">30</a>
+            <a class="next-page pages" href="#">
+            下一页<span class="icon-next"></span>
+          </a>
+        </div>
+      -->
+    </div>
+  </div>
+</div>
+
+<div class="col-lg-3">
+  <!-- tags -->
+  <h3 class="obvious-color">标签:</h3>
+  <div id="cloudtag">
+    <a href="#">anyway1</a>
+    <a href="#">anywa2y</a>
+    <a href="#">anyway3</a>
+    <a href="#">anyway4</a>
+    <a href="#">anyway5</a>
+    <a href="#">anyway6</a>
+    <a href="#">anyway7</a>
+    <a href="#">anyway8</a>
+    <a href="#">前端</a>
+    <a href="#">后台</a>
+    <a href="#">运维</a>
+  </div>
+  <!-- category -->
+  <h3 class="obvious-color">分类</h3>
+  <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+    <div class="panel panel-default">
+      <div class="panel-heading" role="tab" id="heading">
+        <h4 class="panel-title">
+          <a role="button" data-toggle="collapse" data-parent="#accordion" href="#" aria-expanded="true" aria-controls="collapse">
+          </a>
+        </h4>
+      </div>
+      <div id="collapse" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading">
+        <div class="panel-body">
+
+          <a href="#"><p>分类一</p></a>
+          <a href="#"><p>分类二</p></a>
+          <a href="#"><p>分类三</p></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- archive -->
+  <h3 class="obvious-color">文章归档：</h3>
+  <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+    <div class="panel panel-default">
+      <div class="panel-heading" role="tab" id="heading1">
+        <h4 class="panel-title">
+          <a role="button" data-toggle="collapse" data-parent="#accordion" href="#" aria-expanded="true" aria-controls="collapse1">
+            2017 年
+          </a>
+        </h4>
+      </div>
+      <div id="collapse1" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading1">
+        <div class="panel-body">
+          <a href="#"><p>2 月</p></a>
+          <a href="#"><p>1 月</p></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading" role="tab" id="heading2">
+        <h4 class="panel-title">
+          <a role="button" data-toggle="collapse" data-parent="#accordion" href="#" aria-expanded="true" aria-controls="collapse2">
+            2016 年
+          </a>
+        </h4>
+      </div>
+      <div id="collapse2" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading2">
+        <div class="panel-body">
+
+          <a href="#"><p>12 月</p></a>
+
+          <a href="#"><p>11 月</p></a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <h3 class="obvious-color">热门文章：</h3>
+  <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+    <div class="panel panel-default">
+      <div class="panel-heading" role="tab" id="heading">
+        <h4 class="panel-title">
+          <a role="button" data-toggle="collapse" data-parent="#accordion" href="#" aria-expanded="true" aria-controls="collapse">
+          </a>
+        </h4>
+      </div>
+      <div id="collapse" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading">
+        <div class="panel-body">
+
+          <a href="#"><p>将vim打造为好用python...</p></a>
+
+          <a href="#"><p>使用happybase访问HB...</p></a>
+
+          <a href="#"><p>linux shell脚本的执...</p></a>
+
+          <a href="#"><p>MySQL关键字</p></a>
+
+          <a href="#"><p>基于celery + ...</p></a>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="obvious-color">聚合</h3>
+  <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+    <div class="panel panel-default">
+      <div class="panel-heading" role="tab" id="heading">
+        <h4 class="panel-title">
+          <a role="button" data-toggle="collapse" data-parent="#accordion" href="#" aria-expanded="true" aria-controls="collapse"></a>
+        </h4>
+      </div>
+      <div id="collapse" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading">
+        <div class="panel-body">
+          RSS
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
 
 
-</body>
-</html>
+<div class="row">
+  <div class="col-md-5 col-md-offset-3">Copyright © 2006-2016 .All Rights Reserved</div>
+</div>
+<div class="row">
+  <div class="col-md-3 col-md-offset-3">
+    <a href="#" target="_blank">88888号</a>
+  </div>
+  <div class="col-md-2">
+    <a href="mailto:test@qq.com">联系我</a>
+  </div>
+</div>
+
+<script type="text/javascript" src="{% static 'js/django.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/base.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/canvas-background.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.windstagball.js' %}"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+  $("#cloudtag").windstagball({
+    radius:120,
+    speed:10
+  });
+});
+</script>
+</body></html>
